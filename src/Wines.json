@@ -1,0 +1,23 @@
+{
+  "wines": [
+    "Plum Spritz, Kagatsuru Plum Sake, Sparkling Wine",
+    "Lemon Spritz, Heiwa Shuzou 'Tsuru-Ume' Lemon, Sparkling Water",
+    "Kuheiji, “Eau du Desir,” Junmai Daiginjo, Aichi Prefecture 2020",
+    "Aizu Chujo, Junmai, Fukushima Prefecture",
+    "Heiwa Shuzou, Junmai Ginjo Natsu no Shippu, Wakayama Prefecture",
+    "Raku, Junmai Ginjo, Shiboritate, Shiga Prefecture 2021",
+    "Tsuji Zenbei, Junmai with Wine Yeast, Tochigi Prefecture",
+    "Heiwa Shuzou, Tokubetsu Junmai Omachi, Wakayama Prefecture",
+    "Tsuji Zenbei, Junmai Ginjo Muroka Nama Genshu, Tochigi Prefecture",
+    "Heiwa Shuzou, “Muryozan,” Junmai Ginjo, Wakayama Prefecture",
+    "Takenotsuyu, 'Moon Mountain's Dew,' Junmai Muroka Nama Genshu, Yamagata Prefecture",
+    "Matsuno Kotobuki, Honjozo Otoko No Yujyo, Tochigi Prefecture",
+    "Sawahime, Junmai Gold, Tochigi Prefecture"
+  ],
+  "foods": [
+    "Hokkaido scallops with preserved lemon & sea beans",
+    "Amberjack with cucumber vinaigrette, radish & lime",
+    "Ocean trout with citrus, serrano & black olive oil",
+    "Bluefin tuna tartare with hazelnuts, brussels & egg yolk"
+  ]
+}
