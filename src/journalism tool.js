@@ -6,7 +6,7 @@ async function main() {
   say("Welcome to our virtual Michelin star dining experience!");
 
   // Load the wine and food list from the JSON file
-  const pairings = await loadPairings("./src/WineS.json");
+  const pairings = await loadPairings("./src/BiasedNewsdataset.json");
 
   // Ask the user for their preferences
   const occasion1 = await ask(
