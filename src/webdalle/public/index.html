@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello, Web DALL•E</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-800 text-blue-200 font-sans">
+  <div class="p-4 bg-blue-900">
+    <input
+      id="prompt"
+      type="text"
+      placeholder="Describe your idea here..."
+      class="block rounded w-full py-2 px-4 text-black"
+    />
+    <button
+      id="dalleIteration1"
+      class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    >
+      Generate First Sketch
+    </button>
+    <button
+      id="dalleIteration2"
+      class="mt-4 bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 rounded"
+      disabled
+    >
+      Generate Second Sketch
+    </button>
+  </div>
+  <div id="output" class="p-4"></div>
+
+  <script>
+    const promptElement = document.getElementById("prompt");
+    const iteration1Button = document.getElementById("dalleIteration1");
+    const iteration2Button = document.getElementById("dalleIteration2");
+
+    iteration1Button.addEventListener("click", () => {
+      fetchSketch(1); // Fetch first iteration sketch
+    });
+
+    iteration2Button.addEventListener("click", () => {
+      fetchSketch(2); // Fetch second iteration sketch
+    });
+
+    function fetchSketch(iteration) {
+      const prompt = promptElement.value || "no prompt";
+      fetch(`/api/dalle?prompt=${prompt}&iteration=${iteration}`)
+        .then((response) => response.text())
+        .then((url) => {
+          displaySketch(url, iteration);
+          if (iteration === 1) {
+            iteration2Button.disabled = false; // Enable second sketch button
+          }
+        });
+    }
+
+    function displaySketch(url, iteration) {
+      const e = document.createElement("div");
+      e.innerHTML = `
+        <div class="mb-4">
+          <img class="block" src="${url}" />
+          <div class="p-4 bg-gray-500 text-white w-1/2">${prompt}</div>
+        </div>
+      `;
+      const output = document.getElementById("output");
+      output.insertBefore(e, output.firstChild);
+    }
+  </script>
+</body>
+</html>

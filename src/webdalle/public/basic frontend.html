@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8" />
+  <title>Hello, Web DALL•E</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-800 text-blue-200 font-sans">
+  <div class="p-4 bg-blue-900">
+    <input
+      id="prompt"
+      type="text"
+      placeholder="Describe your idea here..."
+      class="block rounded w-full py-2 px-4 text-black"
+    />
+    <button
+      id="dalle"
+      class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    >
+      Generate Sketch
+    </button>
+  </div>
+  <div id="output" class="p-4"></div>
+
+  <script>
+    const promptElement = document.getElementById("prompt");
+    const dalleButton = document.getElementById("dalle");
+    dalleButton.addEventListener("click", () => {
+      const prompt = promptElement.value || "no prompt";
+      fetch(`/api/dalle?prompt=${prompt}`)
+        .then((response) => response.text())
+        .then((url) => {
+          const e = document.createElement("div");
+          e.innerHTML = `
+          <div class="mb-4">
+            <img class="block" src="${url}" />
+            <div class="p-4 bg-gray-500 text-white w-1/2">${prompt}</div>
+          </div>
+          `;
+          const output = document.getElementById("output");
+          output.insertBefore(e, output.firstChild);
+        });
+    });
+  </script>
+</body>
+</html>
