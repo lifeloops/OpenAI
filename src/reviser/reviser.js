@@ -4,27 +4,39 @@ import { createExitSignal, staticServer } from "../shared/server.ts";
 import { Chalk } from "npm:chalk@5";
 import * as log from "../shared/logger.ts";
 
-// tell the shared library code to log as much as possible
+// Set the logging level to DEBUG to capture detailed logs
 log.setLogLevel(log.LogLevel.DEBUG);
 
-// Change the current working directory to the directory of this script
-// This is necessary to serve static files with the correct path even
-// when the script is executed from a different directory
-Deno.chdir(new URL(".", import.meta.url).pathname);
-// log the current working directory with friendly message
+// Correctly change the current working directory to the directory of this script
+// This adjustment is necessary to serve static files correctly
+const path = new URL(".", import.meta.url).pathname;
+const correctedPath = Deno.build.os === "windows" ? path.substring(1) : path;
+Deno.chdir(correctedPath);
+
+// Log the current working directory with a friendly message
 console.log(`Current working directory: ${Deno.cwd()}`);
 
 const chalk = new Chalk({ level: 1 });
-
 const app = new Application();
 const router = new Router();
 
 // API routes
 router.get("/api/gpt", async (ctx) => {
   const prompt = ctx.request.url.searchParams.get("prompt");
+  if (!prompt) {
+    ctx.response.status = 400;
+    ctx.response.body = { error: "Prompt parameter is required." };
+    return;
+  }
   const shortPrompt = prompt.slice(0, 1024);
-  const result = await gptPrompt(shortPrompt, { max_tokens: 1024 });
-  ctx.response.body = result;
+  try {
+    const result = await gptPrompt(shortPrompt, { max_tokens: 1024 });
+    ctx.response.body = result;
+  } catch (error) {
+    ctx.response.status = 500;
+    ctx.response.body = { error: "Failed to process the prompt." };
+    console.error(error.message);
+  }
 });
 
 app.use(router.routes());

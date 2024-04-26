@@ -1,0 +1,10 @@
+{
+  "deploy": {
+    "project": "88988294-9843-4c8b-b758-f814738d2c23",
+    "exclude": [
+      "**/node_modules"
+    ],
+    "include": [],
+    "entrypoint": "reviser\\reviser.js"
+  }
+}
