@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Storyboard Maker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body, button {
+            font-family: 'Press Start 2P', cursive;
+        }
+        .centered-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100vw;
+        }
+        .image-container img {
+            width: 100px;
+            transition: transform 0.2s;
+        }
+        .image-container img:hover {
+            transform: scale(2);
+        }
+        button {
+            background-color: #008000;
+            border: none;
+            color: white;
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        button:hover {
+            background-color: #004d00;
+            transform: translateY(-2px);
+        }
+        .button-custom {
+            background-color: #333;
+            color: #fff;
+            border: 2px solid #555;
+            padding: 8px 16px;
+            font-size: 0.75rem;
+            border-radius: 20px;
+            box-shadow: 3px 3px 0 #222;
+            text-align: center;
+            display: inline-block;
+            margin: 0 10px;
+            cursor: pointer;
+            transition: background-color 0.3s, box-shadow 0.3s, transform 0.2s;
+        }
+        .button-custom:hover {
+            background-color: #444;
+            box-shadow: 6px 6px 0 #111;
+            transform: translate(-3px, -3px);
+        }
+        @media (max-width: 768px) {
+            .button-custom {
+                padding: 8px 12px;
+                font-size: 0.65rem;
+            }
+        }
+        .hidden {
+            display: none;
+        }
+        .active {
+            display: block;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+</head>
+<body class="bg-gray-900 text-white font-sans">
+    <div class="centered-container">
+        <div class="text-center">
+            <h2 class="text-lg font-bold mb-4">Storyboard Maker</h2>
+            <div id="customButtonContainer" class="flex justify-center my-4">
+                <button onclick="showSection('sketchPage')" class="button-custom">Sketch</button>
+                <button onclick="showSection('storyboardPage')" class="button-custom">Storyboard</button>
+                <button class="button-custom">AI</button>
+            </div>
+            <div id="sketchPage" class="hidden">
+                <input type="text" placeholder="Enter your phrase..." class="text-input block rounded w-full py-2 px-4 text-black mb-2">
+                <input type="text" placeholder="Enter setting..." class="text-input block rounded w-full py-2 px-4 text-black mb-2">
+                <button class="rounded">Generate Sketch</button>
+            </div>
+            <div id="storyboardPage" class="hidden">
+                <input type="text" placeholder="Frame 1 description..." class="frame-input block rounded w-full py-2 px-4 text-black mb-2" />
+                <button onclick="addFrame()" class="rounded">Add Frame</button>
+                <button class="rounded">Generate Storyboard</button>
+            </div>
+            <div id="error" class="text-red-500 mt-2 hidden"></div>
+        </div>
+    </div>
+    <div id="output" class="p-4 flex flex-wrap justify-center items-center"></div>
+    <div id="loader" class="hidden text-center mt-4">
+        <div class="w-16 h-16 border-b-2 border-white rounded-full animate-spin"></div>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            document.getElementById('sketchPage').classList.add('hidden');
+            document.getElementById('storyboardPage').classList.add('hidden');
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
+        
+        function addFrame() {
+            var input = document.createElement('input');
+            input.type = 'text';
+            input.placeholder = 'Frame description...';
+            input.className = 'frame-input block rounded w-full py-2 px-4 text-black mb-2';
+            document.getElementById('storyboardPage').appendChild(input);
+        }
+    </script>
+</body>
+</html>

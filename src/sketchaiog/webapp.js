@@ -29,11 +29,7 @@ const router = new Router();
 router.post("/api/sketch", async (ctx) => {
   try {
     const { phrase, setting } = await ctx.request.body().value;
-
-    console.log("body", await ctx.request.body().value);
-    log.info(
-      `Received sketch request with phrase: ${phrase} and setting: ${setting}`,
-    );
+    log.info(`Received sketch request with phrase: ${phrase} and setting: ${setting}`);
 
     const shortPrompt = `Sketch of ${phrase} in ${setting}.`;
     const result = await fal.subscribe("fal-ai/stable-cascade", {
@@ -46,15 +42,15 @@ router.post("/api/sketch", async (ctx) => {
         "guidance_scale": 2,
         "enable_safety_checker": true,
       },
-      logs: true,
+      logs: true
     });
 
-    const sketchUrl = result.images?.[0]?.url ?? null;
+    const sketchUrl = result.images && result.images.length > 0 ? result.images[0].url : null;
 
     ctx.response.status = 200;
     ctx.response.body = { sketchUrl };
   } catch (error) {
-    log.error("Error processing sketch:", error);
+    log.error('Error processing sketch:', error);
     ctx.response.status = 500;
     ctx.response.body = { error: "Failed to generate sketch" };
   }
@@ -67,8 +63,7 @@ router.post("/api/storyboard", async (ctx) => {
 
     const images = [];
     for (let prompt of prompts) {
-      const shortPrompt =
-        `Sketch of ${prompt}. Drawn in a designer's rough sketch style.`;
+      const shortPrompt = `Sketch of ${prompt}. Drawn in a designer's rough sketch style.`;
       const result = await fal.subscribe("fal-ai/stable-cascade", {
         input: {
           "prompt": shortPrompt,
@@ -79,18 +74,16 @@ router.post("/api/storyboard", async (ctx) => {
           "guidance_scale": 2,
           "enable_safety_checker": true,
         },
-        logs: true,
+        logs: true
       });
 
-      images.push(
-        result.images && result.images.length > 0 ? result.images[0].url : null,
-      );
+      images.push(result.images && result.images.length > 0 ? result.images[0].url : null);
     }
 
     ctx.response.status = 200;
     ctx.response.body = { images };
   } catch (error) {
-    log.error("Error processing storyboard:", error);
+    log.error('Error processing storyboard:', error);
     ctx.response.status = 500;
     ctx.response.body = { error: "Failed to generate storyboard" };
   }
